@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, Calendar, Star, CheckCircle, Clock, Award } from 'lucide-react';
+import { ArrowLeft, Calendar, Star, CheckCircle, Clock, Award, Flame, Gift } from 'lucide-react';
 import PlayerProfile from './PlayerProfile';
 
 interface PlayerData {
