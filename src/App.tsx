@@ -24,6 +24,8 @@ import DailyChallenges from './components/DailyChallenges';
 import Leaderboards from './components/Leaderboards';
 import RewardsShop from './components/RewardsShop';
 import SettingsPanel from './components/SettingsPanel';
+import Login from './components/Login'; // Import Login component
+import Signup from './components/Signup'; // Import Signup component
 
 // Game modes enum
 enum GameMode {
@@ -33,24 +35,38 @@ enum GameMode {
   DAILY_CHALLENGES = 'DAILY_CHALLENGES',
   LEADERBOARDS = 'LEADERBOARDS',
   REWARDS_SHOP = 'REWARDS_SHOP',
-  SETTINGS = 'SETTINGS'
+  SETTINGS = 'SETTINGS',
+  LOGIN = 'LOGIN', // Add Login mode
+  SIGNUP = 'SIGNUP' // Add Signup mode
 }
 
 function App() {
-  const [currentMode, setCurrentMode] = useState<GameMode>(GameMode.MAIN_MENU);
+  const [currentMode, setCurrentMode] = useState<GameMode>(GameMode.LOGIN); // Start with Login mode
   const [playerData, setPlayerData] = useState({
-    username: 'MathWizard',
-    level: 12,
-    xp: 2450,
-    totalXp: 3000,
-    rank: 'Math Adept',
-    coins: 750,
+    username: '', // Initially empty
+    level: 1,
+    xp: 0,
+    totalXp: 100,
+    rank: 'Beginner',
+    coins: 0,
     avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80'
   });
 
   // Navigation handler
   const navigateTo = (mode: GameMode) => {
     setCurrentMode(mode);
+  };
+
+  // Handle login
+  const handleLogin = (username: string) => {
+    setPlayerData({ ...playerData, username }); // Update player data with username
+    navigateTo(GameMode.MAIN_MENU); // Navigate to main menu after login
+  };
+
+  // Handle signup
+  const handleSignup = (username: string) => {
+    setPlayerData({ ...playerData, username }); // Update player data with username
+    navigateTo(GameMode.MAIN_MENU); // Navigate to main menu after signup
   };
 
   // Render the current game mode
@@ -68,6 +84,10 @@ function App() {
         return <RewardsShop playerData={playerData} onBack={() => navigateTo(GameMode.MAIN_MENU)} />;
       case GameMode.SETTINGS:
         return <SettingsPanel onBack={() => navigateTo(GameMode.MAIN_MENU)} />;
+      case GameMode.LOGIN:
+        return <Login onLogin={handleLogin} onNavigateToSignup={() => navigateTo(GameMode.SIGNUP)} />;
+      case GameMode.SIGNUP:
+        return <Signup onSignup={handleSignup} onNavigateToLogin={() => navigateTo(GameMode.LOGIN)} />;
       default:
         return (
           <MainMenu 
