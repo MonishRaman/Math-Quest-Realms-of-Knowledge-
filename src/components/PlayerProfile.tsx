@@ -8,7 +8,7 @@ interface PlayerData {
   totalXp: number;
   rank: string;
   coins: number;
-  avatar: string;
+  avatar: string; // Avatar is already part of the PlayerData interface
 }
 
 interface PlayerProfileProps {
@@ -19,7 +19,8 @@ interface PlayerProfileProps {
 const PlayerProfile: React.FC<PlayerProfileProps> = ({ playerData, compact = false }) => {
   const { username, level, xp, totalXp, rank, coins, avatar } = playerData;
   const xpPercentage = (xp / totalXp) * 100;
-  
+
+  // Compact view
   if (compact) {
     return (
       <div className="flex items-center space-x-2 bg-indigo-800 bg-opacity-50 rounded-full px-2 py-1">
@@ -36,7 +37,8 @@ const PlayerProfile: React.FC<PlayerProfileProps> = ({ playerData, compact = fal
       </div>
     );
   }
-  
+
+  // Full view
   return (
     <div className="bg-indigo-800 bg-opacity-70 rounded-lg p-4 border border-indigo-600">
       <div className="flex items-center">

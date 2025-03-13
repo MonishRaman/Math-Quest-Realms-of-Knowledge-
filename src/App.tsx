@@ -26,6 +26,7 @@ import RewardsShop from './components/RewardsShop';
 import SettingsPanel from './components/SettingsPanel';
 import Login from './components/Login'; // Import Login component
 import Signup from './components/Signup'; // Import Signup component
+import AvatarSelection from './components/AvatarSelection'; // Import AvatarSelection component
 
 // Game modes enum
 enum GameMode {
@@ -37,7 +38,8 @@ enum GameMode {
   REWARDS_SHOP = 'REWARDS_SHOP',
   SETTINGS = 'SETTINGS',
   LOGIN = 'LOGIN', // Add Login mode
-  SIGNUP = 'SIGNUP' // Add Signup mode
+  SIGNUP = 'SIGNUP', // Add Signup mode
+  AVATAR_SELECTION = 'AVATAR_SELECTION' // Add AvatarSelection mode
 }
 
 function App() {
@@ -49,7 +51,7 @@ function App() {
     totalXp: 100,
     rank: 'Beginner',
     coins: 0,
-    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80'
+    avatar: '' // Initially empty
   });
 
   // Navigation handler
@@ -60,13 +62,19 @@ function App() {
   // Handle login
   const handleLogin = (username: string) => {
     setPlayerData({ ...playerData, username }); // Update player data with username
-    navigateTo(GameMode.MAIN_MENU); // Navigate to main menu after login
+    navigateTo(GameMode.AVATAR_SELECTION); // Navigate to avatar selection after login
   };
 
   // Handle signup
   const handleSignup = (username: string) => {
     setPlayerData({ ...playerData, username }); // Update player data with username
-    navigateTo(GameMode.MAIN_MENU); // Navigate to main menu after signup
+    navigateTo(GameMode.AVATAR_SELECTION); // Navigate to avatar selection after signup
+  };
+
+  // Handle avatar selection
+  const handleAvatarSelect = (avatarUrl: string) => {
+    setPlayerData({ ...playerData, avatar: avatarUrl }); // Update player data with selected avatar
+    navigateTo(GameMode.MAIN_MENU); // Navigate to main menu after avatar selection
   };
 
   // Render the current game mode
@@ -88,6 +96,8 @@ function App() {
         return <Login onLogin={handleLogin} onNavigateToSignup={() => navigateTo(GameMode.SIGNUP)} />;
       case GameMode.SIGNUP:
         return <Signup onSignup={handleSignup} onNavigateToLogin={() => navigateTo(GameMode.LOGIN)} />;
+      case GameMode.AVATAR_SELECTION:
+        return <AvatarSelection onAvatarSelect={handleAvatarSelect} />;
       default:
         return (
           <MainMenu 
